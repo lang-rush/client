@@ -24,4 +24,9 @@ header {
       color: #c5f31d;
     }
   }
+  .buttons {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
 }

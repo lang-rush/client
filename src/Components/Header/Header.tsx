@@ -1,5 +1,8 @@
+import { IconButton } from "@Components/UI/Buttons";
 import s from "./Header.module.scss";
 import ThemeToggle from "./ThemeToggle/ThemeToggle";
+import { ReactSVG } from "react-svg";
+import logout from "src/assets/images/logout.svg";
 
 const Header = () => {
   return (
@@ -10,6 +13,9 @@ const Header = () => {
       </h3>
       <div className={s.buttons}>
         <ThemeToggle />
+        <IconButton>
+          <ReactSVG src={logout} />
+        </IconButton>
       </div>
     </header>
   );
