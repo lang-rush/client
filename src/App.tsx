@@ -1,9 +1,11 @@
 import { Router } from "@Features/Routing";
 import "./assets/styles/global.scss";
 import { useEffect } from "react";
+import Header from "./Components/Header/Header";
+import { useAppSelector } from "./store/store";
 
 function App() {
-  const isDark = true;
+  const isDark = useAppSelector((state) => state.theme.isDark);
 
   useEffect(() => {
     if (isDark) {
@@ -13,7 +15,12 @@ function App() {
     }
   }, [isDark]);
 
-  return <Router />;
+  return (
+    <>
+      <Header />
+      <Router />
+    </>
+  );
 }
 
 export default App;
