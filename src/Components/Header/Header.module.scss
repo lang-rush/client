@@ -2,6 +2,12 @@ header {
   height: 60px;
   padding: 0 40px;
 
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
   user-select: none;
 
   background: #2c3659;
@@ -28,5 +34,7 @@ header {
     display: flex;
     align-items: center;
     gap: 40px;
+    position: absolute;
+    right: 40px;
   }
 }

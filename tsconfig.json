@@ -26,6 +26,7 @@
       "@Features/*": ["src/Features/*"],
       "@Components/*": ["src/Components/*"],
       "@Pages/*": ["src/Pages/*"],
+      "@assets/*": ["src/assets/*"],
     },
   },
   "include": ["src"],

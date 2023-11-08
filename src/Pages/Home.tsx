@@ -1,9 +1,7 @@
-
+import { FolderContainer } from "@Features/Folders";
 
 const Home = () => {
-  return (
-    <div>Home</div>
-  )
-}
+  return <FolderContainer />;
+};
 
-export default Home
+export default Home;
