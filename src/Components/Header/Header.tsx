@@ -6,7 +6,7 @@ import logout from "src/assets/images/logout.svg";
 
 const Header = () => {
   return (
-    <header>
+    <header className={s.header}>
       <h3 className={s.logo}>
         <span>Lang</span>
         <span>Rush</span>

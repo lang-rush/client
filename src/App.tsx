@@ -1,7 +1,6 @@
 import { Router } from "@Features/Routing";
 import "./assets/styles/global.scss";
 import { useEffect } from "react";
-import Header from "./Components/Header/Header";
 import { useAppSelector } from "./store/store";
 
 function App() {
@@ -17,7 +16,6 @@ function App() {
 
   return (
     <>
-      <Header />
       <Router />
     </>
   );
