@@ -1,15 +1,50 @@
 import { Form, FormBlock, FormContainer } from "@Components/Form";
 import { DarkButton } from "@Components/UI/Buttons";
+import Dropdown, {
+  DropdownOption,
+} from "@Components/UI/Dropdowns/Dropdown/Dropdown";
 import { Input } from "@Components/UI/Inputs";
 import { Text } from "@Components/UI/Labels";
 import { Preloader } from "@Components/UI/Preloaders";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
+const nativeLanguages: DropdownOption[] = [
+  {
+    label: "English",
+    value: "EN",
+    imagePath: "src/assets/icons/united-kingdom.png",
+  },
+  {
+    label: "Ukrainian",
+    value: "UK",
+    imagePath: "src/assets/icons/ukraine.png",
+  },
+  {
+    label: "German",
+    value: "DE",
+    imagePath: "src/assets/icons/germany.png",
+  },
+  {
+    label: "Polish",
+    value: "PL",
+    imagePath: "src/assets/icons/poland.png",
+  },
+];
+
 const FormSignUp = () => {
+  const [nativeLanguage, setNativeLanguage] = useState<DropdownOption>(
+    nativeLanguages[0]
+  );
+
   const isLoading = false;
   const errors = {
     emailError: "",
     passwordError: "",
+  };
+
+  const handleNativeLanguageChange = (option: DropdownOption) => {
+    setNativeLanguage(option);
   };
   return (
     <FormContainer>
@@ -42,6 +77,14 @@ const FormSignUp = () => {
             placeholder="Confirm Password"
             name="confirmPassword"
             disabled={isLoading}
+          />
+        </FormBlock>
+        <FormBlock>
+          <Text>Choose your native language</Text>
+          <Dropdown
+            options={nativeLanguages}
+            onChange={handleNativeLanguageChange}
+            value={nativeLanguage}
           />
         </FormBlock>
         <DarkButton disabled={isLoading}>Sign Up</DarkButton>
