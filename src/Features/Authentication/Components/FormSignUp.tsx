@@ -8,6 +8,7 @@ import { Text } from "@Components/UI/Labels";
 import { Preloader } from "@Components/UI/Preloaders";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Lang, useSignUpMutation } from "src/genetated/types";
 
 const nativeLanguages: DropdownOption[] = [
   {
@@ -33,6 +34,8 @@ const nativeLanguages: DropdownOption[] = [
 ];
 
 const FormSignUp = () => {
+  const [signUp, { loading, error }] = useSignUpMutation();
+
   const [nativeLanguage, setNativeLanguage] = useState<DropdownOption>(
     nativeLanguages[0]
   );
@@ -46,9 +49,22 @@ const FormSignUp = () => {
   const handleNativeLanguageChange = (option: DropdownOption) => {
     setNativeLanguage(option);
   };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const res = await signUp({
+      variables: {
+        email: e.currentTarget.email.value,
+        password: e.currentTarget.password.value,
+        nativeLang: Lang.En,
+      },
+    });
+    console.log(res);
+  };
+
   return (
     <FormContainer>
-      <Form method="post">
+      <Form onSubmit={handleSubmit}>
         <FormBlock>
           <Input
             type="email"
