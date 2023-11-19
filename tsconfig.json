@@ -27,6 +27,7 @@
       "@Components/*": ["src/Components/*"],
       "@Pages/*": ["src/Pages/*"],
       "@assets/*": ["src/assets/*"],
+      "@lib/*": ["src/lib/*"],
     },
   },
   "include": ["src"],
