@@ -34,3 +34,9 @@ export const SIGNUP = gql`
     }
   }
 `;
+
+export const LOGOUT = gql`
+  mutation Logout {
+    logOut
+  }
+`;

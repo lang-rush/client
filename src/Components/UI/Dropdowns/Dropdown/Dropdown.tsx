@@ -3,9 +3,9 @@ import s from "./Dropdown.module.scss";
 import arrow from "../../../../assets/images/dropdownArrow.png";
 import { useAppSelector } from "src/store/store";
 
-export type DropdownOption = {
+export type DropdownOption<T = string> = {
   label: string;
-  value: string;
+  value: T;
   imagePath?: string;
 };
 
