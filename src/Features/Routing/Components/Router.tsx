@@ -2,6 +2,7 @@ import { BasicLayout } from "@Features/Layouts";
 import Home from "@Pages/Home";
 import SignIn from "@Pages/SignIn";
 import SignUp from "@Pages/SignUp";
+import Words from "@Pages/Words";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -11,6 +12,8 @@ const router = createBrowserRouter([
     errorElement: <div>Not found</div>,
     children: [
       { path: "/", element: <Home /> },
+      //TODO: Add a route for the words page
+      { path: "/:id/words", element: <Words /> },
       { path: "/signin", element: <SignIn /> },
       { path: "/signup", element: <SignUp /> },
     ],
