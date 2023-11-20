@@ -43,7 +43,10 @@ const errorLink = onError(
         switch (err.extensions.code) {
           case "UNAUTHENTICATED":
             // ignore 401 error for a refresh request
-            if (operation.operationName === "refreshTokens") return;
+            // eslint-disable-next-line no-case-declarations
+            const operationNames = ["refreshTokens", "signIn"];
+
+            if (operationNames.includes(operation.operationName)) return;
 
             // eslint-disable-next-line no-case-declarations
             const observable = new Observable<
@@ -104,8 +107,7 @@ const refreshToken = async () => {
     return { accessToken, refreshToken };
   } catch (err) {
     console.log(err);
-    console.log();
-    // localStorage.clear();
+
     throw err;
   }
 };

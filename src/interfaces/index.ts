@@ -10,7 +10,7 @@ export interface CustomGraphQLError extends Omit<GraphQLError, "extensions"> {
     code: string;
     stacktrace: string[];
     originalError: {
-      message: Array<string>;
+      message: Array<string> | string;
       error: string;
       statusCode: number;
     };

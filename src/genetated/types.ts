@@ -244,7 +244,7 @@ export type RefreshTokensMutationHookResult = ReturnType<typeof useRefreshTokens
 export type RefreshTokensMutationResult = Apollo.MutationResult<RefreshTokensMutation>;
 export type RefreshTokensMutationOptions = Apollo.BaseMutationOptions<RefreshTokensMutation, RefreshTokensMutationVariables>;
 export const SignInDocument = gql`
-    mutation SignIn($email: String!, $password: String!) {
+    mutation signIn($email: String!, $password: String!) {
   signIn(data: {email: $email, password: $password}) {
     accessToken
     refreshToken
@@ -279,7 +279,7 @@ export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
 export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
 export type SignInMutationOptions = Apollo.BaseMutationOptions<SignInMutation, SignInMutationVariables>;
 export const SignUpDocument = gql`
-    mutation SignUp($email: String!, $password: String!, $nativeLang: Lang!) {
+    mutation signUp($email: String!, $password: String!, $nativeLang: Lang!) {
   signUp(data: {email: $email, password: $password, nativeLang: $nativeLang}) {
     accessToken
     refreshToken
@@ -315,7 +315,7 @@ export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;
 export type SignUpMutationResult = Apollo.MutationResult<SignUpMutation>;
 export type SignUpMutationOptions = Apollo.BaseMutationOptions<SignUpMutation, SignUpMutationVariables>;
 export const LogoutDocument = gql`
-    mutation Logout {
+    mutation logout {
   logOut
 }
     `;

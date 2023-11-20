@@ -3,6 +3,7 @@ import folderImage from "@assets/images/folder.svg";
 import deleteIcon from "@assets/images/delete.svg";
 import s from "./Folder.module.scss";
 import { FC } from "react";
+
 interface IFolderProps {
   id: string;
   name: string;
