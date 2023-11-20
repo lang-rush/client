@@ -10,7 +10,7 @@ export const REFRESH_TOKENS = gql`
 `;
 
 export const LOGIN = gql`
-  mutation SignIn($email: String!, $password: String!) {
+  mutation signIn($email: String!, $password: String!) {
     signIn(data: { email: $email, password: $password }) {
       accessToken
       refreshToken
@@ -25,7 +25,7 @@ export const SIGNUP = gql`
     PL
     UK
   }
-  mutation SignUp($email: String!, $password: String!, $nativeLang: Lang!) {
+  mutation signUp($email: String!, $password: String!, $nativeLang: Lang!) {
     signUp(
       data: { email: $email, password: $password, nativeLang: $nativeLang }
     ) {
@@ -36,7 +36,7 @@ export const SIGNUP = gql`
 `;
 
 export const LOGOUT = gql`
-  mutation Logout {
+  mutation logout {
     logOut
   }
 `;

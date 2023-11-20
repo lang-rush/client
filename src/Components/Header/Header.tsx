@@ -5,6 +5,7 @@ import { ReactSVG } from "react-svg";
 import logout from "src/assets/images/logout.svg";
 import { useLogoutMutation } from "src/genetated/types";
 import { useNavigate } from "react-router-dom";
+import { getRefreshToken } from "src/utils";
 
 const Header = () => {
   const [logOut] = useLogoutMutation();
@@ -28,9 +29,11 @@ const Header = () => {
       </h3>
       <div className={s.buttons}>
         <ThemeToggle />
-        <IconButton onClick={handleLogoutClick}>
-          <ReactSVG src={logout} />
-        </IconButton>
+        {getRefreshToken() ? (
+          <IconButton onClick={handleLogoutClick}>
+            <ReactSVG src={logout} />
+          </IconButton>
+        ) : null}
       </div>
     </header>
   );

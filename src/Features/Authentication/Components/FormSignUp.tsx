@@ -38,22 +38,29 @@ const nativeLanguages: DropdownOption<Lang>[] = [
 const FormSignUp = () => {
   const navigate = useNavigate();
 
-  const [signUp, { loading, error }] = useSignUpMutation({
+  const [errorMessage, setErrorMessage] = useState<string[]>([]);
+  const [nativeLanguage, setNativeLanguage] = useState<DropdownOption>(
+    nativeLanguages[0]
+  );
+
+  const [signUp, { loading }] = useSignUpMutation({
     onCompleted: (data) => {
       setAccessToken(data.signUp.accessToken);
       setRefreshToken(data.signUp.refreshToken);
       navigate("/");
     },
+    onError: (err) => {
+      const message = (err as CustomApolloError).graphQLErrors[0].extensions
+        .originalError.message;
+      if (typeof message === "string") {
+        setErrorMessage([message]);
+      } else if (Array.isArray(message)) {
+        setErrorMessage(message);
+      } else {
+        setErrorMessage(["Something went wrong"]);
+      }
+    },
   });
-
-  const [nativeLanguage, setNativeLanguage] = useState<DropdownOption>(
-    nativeLanguages[0]
-  );
-
-  const errors = {
-    emailError: "",
-    passwordError: "",
-  };
 
   const handleNativeLanguageChange = (option: DropdownOption) => {
     setNativeLanguage(option);
@@ -65,7 +72,7 @@ const FormSignUp = () => {
     if (
       e.currentTarget.password.value !== e.currentTarget.confirmPassword.value
     ) {
-      alert("Passwords should match");
+      setErrorMessage(["Passwords should match"]);
       return;
     }
 
@@ -88,16 +95,11 @@ const FormSignUp = () => {
             name="email"
             disabled={loading}
           />
-
-          {(
-            error as CustomApolloError
-          )?.graphQLErrors[0]?.extensions.originalError.message.map(
-            (err: string, i) => (
-              <Text key={i} color="#d62424" fontSize="14px">
-                {err}
-              </Text>
-            )
-          )}
+          {errorMessage.map((err: string, i) => (
+            <Text key={i} color="#d62424" fontSize="14px">
+              {err}
+            </Text>
+          ))}
         </FormBlock>
         <FormBlock>
           <Input
@@ -106,9 +108,6 @@ const FormSignUp = () => {
             placeholder="Password"
             disabled={loading}
           />
-          <Text color="#d62424" fontSize="14px">
-            {errors?.passwordError}
-          </Text>
         </FormBlock>
         <FormBlock>
           <Input
