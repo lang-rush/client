@@ -107,7 +107,8 @@ const refreshToken = async () => {
     return { accessToken, refreshToken };
   } catch (err) {
     console.log(err);
-
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     throw err;
   }
 };
