@@ -14,11 +14,6 @@ import { setAccessToken, setRefreshToken } from "src/utils";
 
 const nativeLanguages: DropdownOption<Lang>[] = [
   {
-    label: "English",
-    value: Lang.En,
-    imagePath: "src/assets/icons/united-kingdom.png",
-  },
-  {
     label: "Ukrainian",
     value: Lang.Uk,
     imagePath: "src/assets/icons/ukraine.png",
@@ -39,7 +34,7 @@ const FormSignUp = () => {
   const navigate = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
-  const [nativeLanguage, setNativeLanguage] = useState<DropdownOption>(
+  const [nativeLanguage, setNativeLanguage] = useState<DropdownOption<Lang>>(
     nativeLanguages[0]
   );
 
@@ -62,7 +57,7 @@ const FormSignUp = () => {
     },
   });
 
-  const handleNativeLanguageChange = (option: DropdownOption) => {
+  const handleNativeLanguageChange = (option: DropdownOption<Lang>) => {
     setNativeLanguage(option);
   };
 
@@ -80,7 +75,7 @@ const FormSignUp = () => {
       variables: {
         email: e.currentTarget.email.value,
         password: e.currentTarget.password.value,
-        nativeLang: Lang.En,
+        nativeLang: nativeLanguage.value,
       },
     });
   };
@@ -119,7 +114,7 @@ const FormSignUp = () => {
         </FormBlock>
         <FormBlock>
           <Text>Choose your native language</Text>
-          <Dropdown
+          <Dropdown<Lang>
             options={nativeLanguages}
             onChange={handleNativeLanguageChange}
             value={nativeLanguage}
