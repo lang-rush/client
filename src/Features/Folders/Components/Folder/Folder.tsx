@@ -16,9 +16,9 @@ const Folder: FC<IFolderProps> = ({ name }) => {
     <div className={isDark ? `${s.container} ${s.dark}` : s.container}>
       <img src={folderImage} className={s.image} />
       <p className={s.name}>{name}</p>
-      <div className={s.delete}>
+      <button type="button" className={s.delete}>
         <img src={deleteIcon} className={s.image} />
-      </div>
+      </button>
     </div>
   );
 };

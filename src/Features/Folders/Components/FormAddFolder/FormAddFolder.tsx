@@ -3,24 +3,23 @@ import s from "./FormAddFolder.module.scss";
 import { Input } from "@Components/UI/Inputs";
 import { useCreateFolderMutation } from "src/genetated/types";
 import { FC, FormEvent } from "react";
-import { useClickAway } from "@uidotdev/usehooks";
 import { Preloader } from "@Components/UI/Preloaders";
 import { Text } from "@Components/UI/Labels";
 import { useNavigate } from "react-router-dom";
 import { removeTokens } from "src/utils";
-import { useAppSelector } from "src/store/store";
 import { GET_FOLDERS } from "@lib/operations";
+import Dialog from "@Components/UI/Dialog/Dialog";
 
 interface IFormAddFolderProps {
   setIsAddingFolder: (isAddingFolder: boolean) => void;
+  isAddingFolder: boolean;
 }
 
-const FormAddFolder: FC<IFormAddFolderProps> = ({ setIsAddingFolder }) => {
-  const isDark = useAppSelector((state) => state.theme.isDark);
+const FormAddFolder: FC<IFormAddFolderProps> = ({
+  setIsAddingFolder,
+  isAddingFolder,
+}) => {
   const navigate = useNavigate();
-  const containerRef = useClickAway<HTMLDialogElement>(() => {
-    setIsAddingFolder(false);
-  });
 
   const [createFolder, { loading, error }] = useCreateFolderMutation({
     onCompleted: () => {
@@ -50,10 +49,7 @@ const FormAddFolder: FC<IFormAddFolderProps> = ({ setIsAddingFolder }) => {
   };
 
   return (
-    <dialog
-      className={isDark ? `${s.container} ${s.dark}` : s.container}
-      ref={containerRef}
-    >
+    <Dialog isOpen={isAddingFolder} setIsOpen={setIsAddingFolder}>
       <form className={s.form} onSubmit={handleSubmit}>
         <Input
           placeholder="Folder name"
@@ -67,7 +63,7 @@ const FormAddFolder: FC<IFormAddFolderProps> = ({ setIsAddingFolder }) => {
         {error?.graphQLErrors[0].message}
       </Text>
       {loading ? <Preloader /> : null}
-    </dialog>
+    </Dialog>
   );
 };
 

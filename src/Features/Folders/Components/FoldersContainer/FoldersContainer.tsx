@@ -23,7 +23,10 @@ const FoldersContainer = () => {
   return (
     <div style={{ height: "100vh" }}>
       {isAddingFolder ? (
-        <FormAddFolder setIsAddingFolder={setIsAddingFolder} />
+        <FormAddFolder
+          isAddingFolder={isAddingFolder}
+          setIsAddingFolder={setIsAddingFolder}
+        />
       ) : null}
       <div className={s.container}>
         {loading ? (
