@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import s from "./Dropdown.module.scss";
 import arrow from "../../../../assets/images/dropdownArrow.png";
 import { useAppSelector } from "src/store/store";
@@ -9,13 +9,18 @@ export type DropdownOption<T = string> = {
   imagePath?: string;
 };
 
-interface IDropdownProps {
-  options: DropdownOption[];
-  value?: DropdownOption;
-  onChange: (value: DropdownOption) => void;
+interface IDropdownProps<T> {
+  options: DropdownOption<T>[];
+  value?: DropdownOption<T>;
+  onChange: (value: DropdownOption<T>) => void;
   width?: string;
 }
-const Dropdown: FC<IDropdownProps> = ({ options, value, onChange, width }) => {
+const Dropdown = <T,>({
+  options,
+  value,
+  onChange,
+  width,
+}: IDropdownProps<T>) => {
   const isDark = useAppSelector((state) => state.theme.isDark);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -38,8 +43,8 @@ const Dropdown: FC<IDropdownProps> = ({ options, value, onChange, width }) => {
       <img src={arrow} alt="arrow" className={s.arrow} />
 
       <ul className={s.options}>
-        {options.map((option) => (
-          <li key={option.value} onClick={() => onChange(option)}>
+        {options.map((option, i) => (
+          <li key={i} onClick={() => onChange(option)}>
             {option.imagePath && (
               <img src={option.imagePath} alt="flag" className={s.flag} />
             )}

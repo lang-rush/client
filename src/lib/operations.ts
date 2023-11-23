@@ -40,3 +40,36 @@ export const LOGOUT = gql`
     logOut
   }
 `;
+
+export const GET_FOLDERS = gql`
+  query folders {
+    folders {
+      id
+      name
+    }
+  }
+`;
+
+export const CREATE_FOLDER = gql`
+  mutation createFolder($name: String!) {
+    createFolder(data: { name: $name }) {
+      id
+      name
+    }
+  }
+`;
+
+export const UPDATE_FOLDER = gql`
+  mutation updateFolder($id: String!, $name: String!) {
+    updateFolder(id: $id, data: { name: $name }) {
+      id
+      name
+    }
+  }
+`;
+
+export const DELETE_FOLDER = gql`
+  mutation deleteFolder($id: String!) {
+    deleteFolder(id: $id)
+  }
+`;
