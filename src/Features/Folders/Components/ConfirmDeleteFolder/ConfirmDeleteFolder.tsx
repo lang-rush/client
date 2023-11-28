@@ -1,29 +1,30 @@
-import { AddButton } from "@Components/UI/Buttons";
-import s from "./FormAddFolder.module.scss";
-import { Input } from "@Components/UI/Inputs";
-import { useCreateFolderMutation } from "src/genetated/types";
-import { FC, FormEvent } from "react";
-import { Preloader } from "@Components/UI/Preloaders";
+import { DarkButton } from "@Components/UI/Buttons";
+import Dialog from "@Components/UI/Dialog/Dialog";
 import { Text } from "@Components/UI/Labels";
+import { Preloader } from "@Components/UI/Preloaders";
+import { FC, FormEvent } from "react";
+import s from "./ConfirmDeleteFolder.module.scss";
 import { useNavigate } from "react-router-dom";
+import { useDeleteFolderMutation } from "src/genetated/types";
 import { removeTokens } from "src/utils";
 import { GET_FOLDERS } from "@lib/operations";
-import Dialog from "@Components/UI/Dialog/Dialog";
 
-interface IFormAddFolderProps {
-  setIsAddingFolder: (isAddingFolder: boolean) => void;
-  isAddingFolder: boolean;
+interface IConfirmDeleteFolderProps {
+  folderId: string;
+  setIsDeletingFolder: (isAddingFolder: boolean) => void;
+  isDeletingFolder: boolean;
 }
 
-const FormAddFolder: FC<IFormAddFolderProps> = ({
-  setIsAddingFolder,
-  isAddingFolder,
+const ConfirmDeleteFolder: FC<IConfirmDeleteFolderProps> = ({
+  folderId,
+  setIsDeletingFolder,
+  isDeletingFolder,
 }) => {
   const navigate = useNavigate();
 
-  const [createFolder, { loading, error }] = useCreateFolderMutation({
+  const [createFolder, { loading, error }] = useDeleteFolderMutation({
     onCompleted: () => {
-      setIsAddingFolder(false);
+      setIsDeletingFolder(false);
       navigate(".", { replace: true });
     },
     onError: ({ graphQLErrors }) => {
@@ -46,21 +47,19 @@ const FormAddFolder: FC<IFormAddFolderProps> = ({
     e.preventDefault();
     await createFolder({
       variables: {
-        name: e.currentTarget.folderName.value,
+        id: folderId,
       },
     });
   };
 
   return (
-    <Dialog isOpen={isAddingFolder} setIsOpen={setIsAddingFolder}>
+    <Dialog isOpen={isDeletingFolder} setIsOpen={setIsDeletingFolder}>
       <form className={s.form} onSubmit={handleSubmit}>
-        <Input
-          placeholder="Folder name"
-          name="folderName"
-          autoComplete="off"
-          required
-        />
-        <AddButton>+</AddButton>
+        <Text color="#d62424" fontSize="18px">
+          Are you sure you want to delete this folder?
+        </Text>
+        <DarkButton>Cancel</DarkButton>
+        <DarkButton>Delete</DarkButton>
       </form>
       <Text color="#d62424" fontSize="14px">
         {error?.graphQLErrors[0].message}
@@ -70,4 +69,4 @@ const FormAddFolder: FC<IFormAddFolderProps> = ({
   );
 };
 
-export default FormAddFolder;
+export default ConfirmDeleteFolder;
