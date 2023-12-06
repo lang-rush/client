@@ -1,4 +1,4 @@
-import { DarkButton } from "@Components/UI/Buttons";
+import { DarkButton, RedBorderButton } from "@Components/UI/Buttons";
 import Dialog from "@Components/UI/Dialog/Dialog";
 import { Text } from "@Components/UI/Labels";
 import { Preloader } from "@Components/UI/Preloaders";
@@ -22,14 +22,14 @@ const ConfirmDeleteFolder: FC<IConfirmDeleteFolderProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const [createFolder, { loading, error }] = useDeleteFolderMutation({
+  const [deleteFolder, { loading, error }] = useDeleteFolderMutation({
     onCompleted: () => {
       setIsDeletingFolder(false);
       navigate(".", { replace: true });
     },
     onError: ({ graphQLErrors }) => {
       for (const err of graphQLErrors) {
-        if (err?.extensions.code === "UNAUTHENTICATED") {
+        if (err?.message === "Unauthorized") {
           removeTokens();
           navigate("/signin");
           break;
@@ -45,7 +45,7 @@ const ConfirmDeleteFolder: FC<IConfirmDeleteFolderProps> = ({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await createFolder({
+    await deleteFolder({
       variables: {
         id: folderId,
       },
@@ -58,8 +58,14 @@ const ConfirmDeleteFolder: FC<IConfirmDeleteFolderProps> = ({
         <Text color="#d62424" fontSize="18px">
           Are you sure you want to delete this folder?
         </Text>
-        <DarkButton>Cancel</DarkButton>
-        <DarkButton>Delete</DarkButton>
+        <DarkButton
+          type="button"
+          onClick={() => setIsDeletingFolder(false)}
+          disabled={loading}
+        >
+          Cancel
+        </DarkButton>
+        <RedBorderButton disabled={loading}>Delete</RedBorderButton>
       </form>
       <Text color="#d62424" fontSize="14px">
         {error?.graphQLErrors[0].message}

@@ -28,7 +28,7 @@ const FormAddFolder: FC<IFormAddFolderProps> = ({
     },
     onError: ({ graphQLErrors }) => {
       for (const err of graphQLErrors) {
-        if (err?.extensions.code === "UNAUTHENTICATED") {
+        if (err?.message === "Unauthorized") {
           removeTokens();
           navigate("/signin");
           break;
@@ -60,7 +60,7 @@ const FormAddFolder: FC<IFormAddFolderProps> = ({
           autoComplete="off"
           required
         />
-        <AddButton>+</AddButton>
+        <AddButton disabled={loading}>+</AddButton>
       </form>
       <Text color="#d62424" fontSize="14px">
         {error?.graphQLErrors[0].message}

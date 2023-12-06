@@ -6,8 +6,8 @@ import { Preloader } from "@Components/UI/Preloaders";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignInMutation } from "src/genetated/types";
-import { CustomApolloError } from "src/interfaces";
 import { setAccessToken, setRefreshToken } from "src/utils";
+import { validateEmail, validatePassword } from "src/utils/validation";
 
 const FormSignIn = () => {
   const navigate = useNavigate();
@@ -20,9 +20,7 @@ const FormSignIn = () => {
       navigate("/");
     },
     onError: (err) => {
-      const message = (err as CustomApolloError).graphQLErrors[0].extensions
-        .originalError.message;
-      console.log(err.graphQLErrors);
+      const message = err.message;
 
       if (typeof message === "string") {
         setErrorMessage([message]);
@@ -37,10 +35,27 @@ const FormSignIn = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    setErrorMessage([]);
+
+    const email = e.currentTarget.email.value;
+    const password = e.currentTarget.password.value;
+
+    const emailError = validateEmail(email);
+    if (emailError) {
+      setErrorMessage([emailError]);
+      return;
+    }
+
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      setErrorMessage([passwordError]);
+      return;
+    }
+
     await signIn({
       variables: {
-        email: e.currentTarget.email.value,
-        password: e.currentTarget.password.value,
+        email: email,
+        password: password,
       },
     });
   };
@@ -54,6 +69,7 @@ const FormSignIn = () => {
             name="email"
             placeholder="Enter email"
             disabled={loading}
+            required
           />
           {errorMessage.map((err: string, i) => (
             <Text key={i} color="#d62424" fontSize="14px">
@@ -67,6 +83,7 @@ const FormSignIn = () => {
             name="password"
             placeholder="Password"
             disabled={loading}
+            required
           />
         </FormBlock>
         <DarkButton type="submit" disabled={loading}>

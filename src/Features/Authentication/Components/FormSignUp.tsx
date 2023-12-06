@@ -9,8 +9,9 @@ import { Preloader } from "@Components/UI/Preloaders";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Lang, useSignUpMutation } from "src/genetated/types";
-import { CustomApolloError } from "src/interfaces";
+
 import { setAccessToken, setRefreshToken } from "src/utils";
+import { validateEmail, validatePassword } from "src/utils/validation";
 
 const nativeLanguages: DropdownOption<Lang>[] = [
   {
@@ -45,8 +46,9 @@ const FormSignUp = () => {
       navigate("/");
     },
     onError: (err) => {
-      const message = (err as CustomApolloError).graphQLErrors[0].extensions
-        .originalError.message;
+      console.log(err);
+      const message = err.message;
+
       if (typeof message === "string") {
         setErrorMessage([message]);
       } else if (Array.isArray(message)) {
@@ -64,17 +66,25 @@ const FormSignUp = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (
-      e.currentTarget.password.value !== e.currentTarget.confirmPassword.value
-    ) {
-      setErrorMessage(["Passwords should match"]);
+    const email = e.currentTarget.email.value;
+    const password = e.currentTarget.password.value;
+
+    const emailError = validateEmail(email);
+    if (emailError) {
+      setErrorMessage([emailError]);
+      return;
+    }
+
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      setErrorMessage([passwordError]);
       return;
     }
 
     await signUp({
       variables: {
-        email: e.currentTarget.email.value,
-        password: e.currentTarget.password.value,
+        email: email,
+        password: email,
         nativeLang: nativeLanguage.value,
       },
     });
