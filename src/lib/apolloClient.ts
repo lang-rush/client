@@ -40,8 +40,8 @@ const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       for (const err of graphQLErrors) {
-        switch (err.extensions.code) {
-          case "UNAUTHENTICATED":
+        switch (err.message) {
+          case "Unauthorized":
             // ignore 401 error for a refresh request
             // eslint-disable-next-line no-case-declarations
             const operationNames = ["refreshTokens", "signIn"];
