@@ -1,4 +1,4 @@
-import WordContainer from "@Features/Words/Components/WordContainer/WordContainer";
+import { WordContainer } from "@Features/Words";
 import React from "react";
 
 const Words: React.FC = () => {

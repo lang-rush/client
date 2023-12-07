@@ -73,3 +73,48 @@ export const DELETE_FOLDER = gql`
     deleteFolder(id: $id)
   }
 `;
+
+export const GET_FOLDER = gql`
+  query folder($id: String!) {
+    folder(id: $id) {
+      id
+      name
+      words {
+        id
+        word
+      }
+    }
+  }
+`;
+
+export const CREATE_WORD = gql`
+  mutation createWord(
+    $definition: String!
+    $folderId: ID!
+    $form: WordForm!
+    $otherAdjs: [String!]
+    $otherAdvs: [String!]
+    $otherNouns: [String!]
+    $otherVerbs: [String!]
+    $sentences: [String!]!
+    $translation: String!
+    $word: String!
+  ) {
+    createWord(
+      data: {
+        definition: $definition
+        folderId: $folderId
+        form: $form
+        otherAdjs: $otherAdjs
+        otherAdvs: $otherAdvs
+        otherNouns: $otherNouns
+        otherVerbs: $otherVerbs
+        sentences: $sentences
+        translation: $translation
+        word: $word
+      }
+    ) {
+      id
+    }
+  }
+`;
