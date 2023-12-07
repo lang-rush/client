@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <header className={s.header}>
       <h3 className={s.logo}>
-        <span>Lang</span>
+        <span>Engl</span>
         <span>Rush</span>
       </h3>
       <div className={s.buttons}>

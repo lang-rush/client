@@ -1,4 +1,3 @@
-import React from "react";
 import s from "./WordAdd.module.scss";
 import { useAppSelector } from "src/store/store";
 import plus from "@assets/images/plus.svg";

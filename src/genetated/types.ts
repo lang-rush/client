@@ -18,6 +18,17 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
+export type Answer = {
+  answer: Scalars['String']['input'];
+  wordId: Scalars['String']['input'];
+};
+
+export type AnswersInput = {
+  answers: Array<Answer>;
+  folderId: Scalars['String']['input'];
+  quizType: QuizType;
+};
+
 export type Auth = {
   __typename?: 'Auth';
   accessToken: Scalars['String']['output'];
@@ -35,12 +46,26 @@ export type CreateUserInput = {
   role?: InputMaybe<Role>;
 };
 
+export type CreateWordInput = {
+  definition: Scalars['String']['input'];
+  folderId: Scalars['ID']['input'];
+  form: WordForm;
+  otherAdjs?: InputMaybe<Array<Scalars['String']['input']>>;
+  otherAdvs?: InputMaybe<Array<Scalars['String']['input']>>;
+  otherNouns?: InputMaybe<Array<Scalars['String']['input']>>;
+  otherVerbs?: InputMaybe<Array<Scalars['String']['input']>>;
+  sentences: Array<Scalars['String']['input']>;
+  translation: Scalars['String']['input'];
+  word: Scalars['String']['input'];
+};
+
 export type Folder = {
   __typename?: 'Folder';
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
+  words?: Maybe<Array<Word>>;
 };
 
 export type GetUserInput = {
@@ -63,16 +88,25 @@ export enum Lang {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createFolder?: Maybe<Folder>;
+  answers: Array<Word>;
+  createFolder: Folder;
   createUser?: Maybe<User>;
+  createWord: Word;
   deleteFolder?: Maybe<Scalars['Boolean']['output']>;
   deleteUser?: Maybe<Scalars['Boolean']['output']>;
+  deleteWord?: Maybe<Scalars['Boolean']['output']>;
   logOut?: Maybe<Scalars['Boolean']['output']>;
   refreshTokens: Auth;
   signIn: Auth;
   signUp: Auth;
-  updateFolder?: Maybe<Folder>;
+  updateFolder: Folder;
   updateUser?: Maybe<User>;
+  updateWord: Word;
+};
+
+
+export type MutationAnswersArgs = {
+  data: AnswersInput;
 };
 
 
@@ -86,6 +120,11 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationCreateWordArgs = {
+  data: CreateWordInput;
+};
+
+
 export type MutationDeleteFolderArgs = {
   id: Scalars['String']['input'];
 };
@@ -93,6 +132,11 @@ export type MutationDeleteFolderArgs = {
 
 export type MutationDeleteUserArgs = {
   where: GetUserInput;
+};
+
+
+export type MutationDeleteWordArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -117,12 +161,37 @@ export type MutationUpdateUserArgs = {
   where: GetUserInput;
 };
 
+
+export type MutationUpdateWordArgs = {
+  data: UpdateWordInput;
+  id: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  folder: Folder;
   folders: Array<Folder>;
   me: User;
+  questions: Quiz;
+  translateWord: Scalars['String']['output'];
   user: User;
   users: Array<User>;
+  word: Word;
+};
+
+
+export type QueryFolderArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryQuestionsArgs = {
+  data: QuestionsInput;
+};
+
+
+export type QueryTranslateWordArgs = {
+  data: TranslateWordInput;
 };
 
 
@@ -134,6 +203,35 @@ export type QueryUserArgs = {
 export type QueryUsersArgs = {
   params: GetUsersInput;
 };
+
+
+export type QueryWordArgs = {
+  id: Scalars['String']['input'];
+};
+
+export type Question = {
+  __typename?: 'Question';
+  question: Scalars['String']['output'];
+  wordForm: WordForm;
+  wordId: Scalars['String']['output'];
+};
+
+export type QuestionsInput = {
+  folderId: Scalars['String']['input'];
+  quizType: QuizType;
+};
+
+export type Quiz = {
+  __typename?: 'Quiz';
+  folderId: Scalars['String']['output'];
+  questions: Array<Question>;
+  type: QuizType;
+};
+
+export enum QuizType {
+  DefinitionWord = 'DEFINITION_WORD',
+  WordTranslation = 'WORD_TRANSLATION'
+}
 
 export enum Role {
   Admin = 'ADMIN',
@@ -151,8 +249,12 @@ export type SignUpInput = {
   password: Scalars['String']['input'];
 };
 
+export type TranslateWordInput = {
+  word: Scalars['String']['input'];
+};
+
 export type UpdateFolderInput = {
-  name?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
 };
 
 export type UpdateUserInput = {
@@ -161,6 +263,18 @@ export type UpdateUserInput = {
   password?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Role>;
   token?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateWordInput = {
+  definition: Scalars['String']['input'];
+  folderId: Scalars['ID']['input'];
+  form: WordForm;
+  otherAdjs?: InputMaybe<Array<Scalars['String']['input']>>;
+  otherAdvs?: InputMaybe<Array<Scalars['String']['input']>>;
+  otherNouns?: InputMaybe<Array<Scalars['String']['input']>>;
+  otherVerbs?: InputMaybe<Array<Scalars['String']['input']>>;
+  sentences: Array<Scalars['String']['input']>;
+  translation: Scalars['String']['input'];
 };
 
 export type User = {
@@ -179,6 +293,30 @@ export type WhereUserInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
+
+export type Word = {
+  __typename?: 'Word';
+  createdAt: Scalars['DateTime']['output'];
+  definition: Scalars['String']['output'];
+  form: WordForm;
+  id: Scalars['ID']['output'];
+  otherAdjs: Array<Scalars['String']['output']>;
+  otherAdvs: Array<Scalars['String']['output']>;
+  otherNouns: Array<Scalars['String']['output']>;
+  otherVerbs: Array<Scalars['String']['output']>;
+  progress: Scalars['Int']['output'];
+  sentences: Array<Scalars['String']['output']>;
+  translation: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  word: Scalars['String']['output'];
+};
+
+export enum WordForm {
+  Adjective = 'ADJECTIVE',
+  Adverb = 'ADVERB',
+  Noun = 'NOUN',
+  Verb = 'VERB'
+}
 
 export type RefreshTokensMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -217,7 +355,7 @@ export type CreateFolderMutationVariables = Exact<{
 }>;
 
 
-export type CreateFolderMutation = { __typename?: 'Mutation', createFolder?: { __typename?: 'Folder', id: string, name: string } | null };
+export type CreateFolderMutation = { __typename?: 'Mutation', createFolder: { __typename?: 'Folder', id: string, name: string } };
 
 export type UpdateFolderMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -225,7 +363,7 @@ export type UpdateFolderMutationVariables = Exact<{
 }>;
 
 
-export type UpdateFolderMutation = { __typename?: 'Mutation', updateFolder?: { __typename?: 'Folder', id: string, name: string } | null };
+export type UpdateFolderMutation = { __typename?: 'Mutation', updateFolder: { __typename?: 'Folder', id: string, name: string } };
 
 export type DeleteFolderMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -233,6 +371,29 @@ export type DeleteFolderMutationVariables = Exact<{
 
 
 export type DeleteFolderMutation = { __typename?: 'Mutation', deleteFolder?: boolean | null };
+
+export type FolderQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type FolderQuery = { __typename?: 'Query', folder: { __typename?: 'Folder', id: string, name: string, words?: Array<{ __typename?: 'Word', id: string, word: string }> | null } };
+
+export type CreateWordMutationVariables = Exact<{
+  definition: Scalars['String']['input'];
+  folderId: Scalars['ID']['input'];
+  form: WordForm;
+  otherAdjs?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  otherAdvs?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  otherNouns?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  otherVerbs?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  sentences: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  translation: Scalars['String']['input'];
+  word: Scalars['String']['input'];
+}>;
+
+
+export type CreateWordMutation = { __typename?: 'Mutation', createWord: { __typename?: 'Word', id: string } };
 
 
 export const RefreshTokensDocument = gql`
@@ -509,3 +670,92 @@ export function useDeleteFolderMutation(baseOptions?: Apollo.MutationHookOptions
 export type DeleteFolderMutationHookResult = ReturnType<typeof useDeleteFolderMutation>;
 export type DeleteFolderMutationResult = Apollo.MutationResult<DeleteFolderMutation>;
 export type DeleteFolderMutationOptions = Apollo.BaseMutationOptions<DeleteFolderMutation, DeleteFolderMutationVariables>;
+export const FolderDocument = gql`
+    query folder($id: String!) {
+  folder(id: $id) {
+    id
+    name
+    words {
+      id
+      word
+    }
+  }
+}
+    `;
+
+/**
+ * __useFolderQuery__
+ *
+ * To run a query within a React component, call `useFolderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFolderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFolderQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFolderQuery(baseOptions: Apollo.QueryHookOptions<FolderQuery, FolderQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FolderQuery, FolderQueryVariables>(FolderDocument, options);
+      }
+export function useFolderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FolderQuery, FolderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FolderQuery, FolderQueryVariables>(FolderDocument, options);
+        }
+export function useFolderSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FolderQuery, FolderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FolderQuery, FolderQueryVariables>(FolderDocument, options);
+        }
+export type FolderQueryHookResult = ReturnType<typeof useFolderQuery>;
+export type FolderLazyQueryHookResult = ReturnType<typeof useFolderLazyQuery>;
+export type FolderSuspenseQueryHookResult = ReturnType<typeof useFolderSuspenseQuery>;
+export type FolderQueryResult = Apollo.QueryResult<FolderQuery, FolderQueryVariables>;
+export const CreateWordDocument = gql`
+    mutation createWord($definition: String!, $folderId: ID!, $form: WordForm!, $otherAdjs: [String!], $otherAdvs: [String!], $otherNouns: [String!], $otherVerbs: [String!], $sentences: [String!]!, $translation: String!, $word: String!) {
+  createWord(
+    data: {definition: $definition, folderId: $folderId, form: $form, otherAdjs: $otherAdjs, otherAdvs: $otherAdvs, otherNouns: $otherNouns, otherVerbs: $otherVerbs, sentences: $sentences, translation: $translation, word: $word}
+  ) {
+    id
+  }
+}
+    `;
+export type CreateWordMutationFn = Apollo.MutationFunction<CreateWordMutation, CreateWordMutationVariables>;
+
+/**
+ * __useCreateWordMutation__
+ *
+ * To run a mutation, you first call `useCreateWordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateWordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createWordMutation, { data, loading, error }] = useCreateWordMutation({
+ *   variables: {
+ *      definition: // value for 'definition'
+ *      folderId: // value for 'folderId'
+ *      form: // value for 'form'
+ *      otherAdjs: // value for 'otherAdjs'
+ *      otherAdvs: // value for 'otherAdvs'
+ *      otherNouns: // value for 'otherNouns'
+ *      otherVerbs: // value for 'otherVerbs'
+ *      sentences: // value for 'sentences'
+ *      translation: // value for 'translation'
+ *      word: // value for 'word'
+ *   },
+ * });
+ */
+export function useCreateWordMutation(baseOptions?: Apollo.MutationHookOptions<CreateWordMutation, CreateWordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateWordMutation, CreateWordMutationVariables>(CreateWordDocument, options);
+      }
+export type CreateWordMutationHookResult = ReturnType<typeof useCreateWordMutation>;
+export type CreateWordMutationResult = Apollo.MutationResult<CreateWordMutation>;
+export type CreateWordMutationOptions = Apollo.BaseMutationOptions<CreateWordMutation, CreateWordMutationVariables>;
