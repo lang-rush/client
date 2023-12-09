@@ -8,7 +8,7 @@ import { Text } from "@Components/UI/Labels";
 import { useNavigate } from "react-router-dom";
 import { removeTokens } from "src/utils";
 import { GET_FOLDERS } from "@lib/operations";
-import Dialog from "@Components/UI/Dialog/Dialog";
+import Dialog from "@Components/UI/Dialogs/Dialog/Dialog";
 
 interface IFormAddFolderProps {
   setIsAddingFolder: (isAddingFolder: boolean) => void;

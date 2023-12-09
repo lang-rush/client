@@ -8,7 +8,7 @@ import { Text } from "@Components/UI/Labels";
 import { useNavigate } from "react-router-dom";
 import { removeTokens } from "src/utils";
 import { GET_FOLDER } from "@lib/operations";
-import Dialog from "@Components/UI/Dialog/Dialog";
+import { WordDialog } from "@Components/UI/Dialogs";
 
 interface IFormAddWordProps {
   setIsAddingWord: (isAddingWord: boolean) => void;
@@ -52,7 +52,7 @@ const FormAddWord: FC<IFormAddWordProps> = ({
   };
 
   return (
-    <Dialog isOpen={isAddingWord} setIsOpen={setIsAddingWord}>
+    <WordDialog isOpen={isAddingWord} setIsOpen={setIsAddingWord}>
       <form className={s.form} onSubmit={handleSubmit}>
         <Input
           placeholder="Add word"
@@ -66,7 +66,7 @@ const FormAddWord: FC<IFormAddWordProps> = ({
         {error?.graphQLErrors[0].message}
       </Text>
       {loading ? <Preloader /> : null}
-    </Dialog>
+    </WordDialog>
   );
 };
 

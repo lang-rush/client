@@ -8,9 +8,11 @@ import { Preloader } from "@Components/UI/Preloaders";
 import edit from "@assets/images/edit.svg";
 import FormEditFolderName from "../FormEditFolderName/FormEditFolderName";
 import { useState } from "react";
+import FormAddWord from "../FormAddWord/FormAddWord";
 
 const WordContainer = () => {
   const [isEditingFolder, setIsEditingFolder] = useState(false);
+  const [isAddingWord, setIsAddingWord] = useState(false);
 
   const params = useParams<{ id: string }>() as { id: string };
 
@@ -35,14 +37,20 @@ const WordContainer = () => {
         </div>
       ) : (
         <>
-          {isEditingFolder && (
+          {isEditingFolder ? (
             <FormEditFolderName
               setIsEditingFolder={setIsEditingFolder}
               isEditingFolder={isEditingFolder}
               folderId={params.id}
               initialName={data?.folder.name}
             />
-          )}
+          ) : null}
+          {isAddingWord ? (
+            <FormAddWord
+              setIsAddingWord={setIsAddingWord}
+              isAddingWord={isAddingWord}
+            />
+          ) : null}
           <section className={s.header}>
             <div className={s.title}>{data?.folder.name}</div>
             <button
@@ -57,7 +65,7 @@ const WordContainer = () => {
           <hr className={s.hr} />
 
           <div className={s.wordContainer}>
-            <WordAdd />
+            <WordAdd onClick={() => setIsAddingWord(true)} />
             {data?.folder.words?.map((word, i) => (
               <Word key={i} id={word.id} name={word.word} />
             ))}

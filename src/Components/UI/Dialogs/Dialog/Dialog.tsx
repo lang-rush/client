@@ -2,10 +2,10 @@ import { useAppSelector } from "src/store/store";
 import s from "./Dialog.module.scss";
 import { FC } from "react";
 import { useClickAway } from "@uidotdev/usehooks";
+import close from "@assets/images/close.svg";
 
 interface IDialogProps {
   children: React.ReactNode;
-  isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
 const Dialog: FC<IDialogProps> = ({ children, setIsOpen }) => {
@@ -21,6 +21,13 @@ const Dialog: FC<IDialogProps> = ({ children, setIsOpen }) => {
       ref={containerRef}
       aria-modal
     >
+      <button
+        type="button"
+        className={s.close}
+        onClick={() => setIsOpen(false)}
+      >
+        <img src={close} />
+      </button>
       {children}
     </dialog>
   );

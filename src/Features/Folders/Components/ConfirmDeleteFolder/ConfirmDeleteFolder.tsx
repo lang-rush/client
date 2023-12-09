@@ -1,5 +1,5 @@
 import { DarkButton, RedBorderButton } from "@Components/UI/Buttons";
-import Dialog from "@Components/UI/Dialog/Dialog";
+import Dialog from "@Components/UI/Dialogs/Dialog/Dialog";
 import { Text } from "@Components/UI/Labels";
 import { Preloader } from "@Components/UI/Preloaders";
 import { FC, FormEvent } from "react";

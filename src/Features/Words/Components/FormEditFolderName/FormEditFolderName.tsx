@@ -8,7 +8,7 @@ import { Text } from "@Components/UI/Labels";
 import { useNavigate } from "react-router-dom";
 import { removeTokens } from "src/utils";
 import { GET_FOLDER } from "@lib/operations";
-import Dialog from "@Components/UI/Dialog/Dialog";
+import Dialog from "@Components/UI/Dialogs/Dialog/Dialog";
 
 interface IFormEditFolderProps {
   setIsEditingFolder: (isEditingFolder: boolean) => void;
@@ -57,7 +57,7 @@ const FormEditFolderName: FC<IFormEditFolderProps> = ({
   };
 
   return (
-    <Dialog isOpen={isEditingFolder} setIsOpen={setIsEditingFolder}>
+    <Dialog setIsOpen={setIsEditingFolder}>
       <form className={s.form} onSubmit={handleSubmit}>
         <Input
           placeholder="Folder name"
